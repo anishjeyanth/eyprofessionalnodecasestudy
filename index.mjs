@@ -1,12 +1,14 @@
 import { SingleInstanceServiceHosting } from './hosting';
 
 const DEFAULT_PORT = 8080;
+const DEFAULT_SECRET_KEY = 'EY, Bangalore';
 
 async function main() {
     try {
         let portNumber = process.env.PORT_NUMBER || DEFAULT_PORT;
         let enableStaticContents = process.env.ENABLE_STATIC_CONTENTS;
-        let hosting = new SingleInstanceServiceHosting(portNumber, enableStaticContents);
+        let secretKey = process.env.GLOBAL_SECRET_KEY || DEFAULT_SECRET_KEY;
+        let hosting = new SingleInstanceServiceHosting(portNumber, enableStaticContents, secretKey);
 
         await hosting.startServer();
 

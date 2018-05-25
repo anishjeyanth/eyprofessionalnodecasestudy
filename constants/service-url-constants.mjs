@@ -1,5 +1,6 @@
 const ServiceUrlConstants = {
-    CUSTOMERS: '/api/customers'
+    CUSTOMERS: '/api/customers',
+    AUTHENTICATION: '/authenticate'
 };
 
 export {
