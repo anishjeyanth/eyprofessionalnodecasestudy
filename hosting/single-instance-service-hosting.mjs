@@ -4,17 +4,22 @@ import bodyParser from 'body-parser';
 
 import { ErrorConstants, ServiceUrlConstants } from '../constants';
 import { CustomerRouting } from '../routing';
+import { PushNotificationService } from '../services';
+
+const DEFAULT_STATIC_CONTENTS_FLAG = false;
 
 class SingleInstanceServiceHosting {
-    constructor(portNumber) {
+    constructor(portNumber, enableStaticContents = DEFAULT_STATIC_CONTENTS_FLAG) {
         if (!portNumber) {
             throw new Error(ErrorConstants.INVALID_ARGUMENTS);
         }
 
+        this.enableStaticContents = enableStaticContents;
         this.portNumber = portNumber;
         this.expressApplication = express();
         this.httpServer = http.createServer(this.expressApplication);
-        this.customerRouting = new CustomerRouting();
+        this.pushNotificationService = new PushNotificationService(this.httpServer);
+        this.customerRouting = new CustomerRouting(this.pushNotificationService);
 
         this.initializeHost();
     }
@@ -23,6 +28,10 @@ class SingleInstanceServiceHosting {
         this.applyCors();
         this.expressApplication.use(bodyParser.json());
         this.expressApplication.use(ServiceUrlConstants.CUSTOMERS, this.customerRouting.Router);
+
+        if (this.enableStaticContents) {
+            this.expressApplication.use('/', express.static('public'));
+        }
     }
 
     applyCors() {

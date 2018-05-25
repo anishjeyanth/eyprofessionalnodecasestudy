@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Learning Node and Socket.IO - Push Notifications</title>
+    <script src='./lib/socket.io.js'></script>
+</head>
+
+<body>
+    <script type='text/javascript'>
+        var socketServerUrl = window.location.protocol + '//' +
+            window.location.hostname + ':' +
+            window.location.port;
+
+        if (socketServerUrl) {
+            var socketClient = io.connect(socketServerUrl);
+
+            if (socketClient) {
+                console.log('Socket Client Connected Successfully ...');
+
+                socketClient.on('NewCustomerRecord',
+                    function (eventData) {
+                        console.log('Push Notification Message Received ... ' +
+                            JSON.stringify(eventData));
+                    });
+            }
+        }
+    </script>
+</body>
+
+</html>

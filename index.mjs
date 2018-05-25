@@ -5,7 +5,8 @@ const DEFAULT_PORT = 8080;
 async function main() {
     try {
         let portNumber = process.env.PORT_NUMBER || DEFAULT_PORT;
-        let hosting = new SingleInstanceServiceHosting(portNumber);
+        let enableStaticContents = process.env.ENABLE_STATIC_CONTENTS;
+        let hosting = new SingleInstanceServiceHosting(portNumber, enableStaticContents);
 
         await hosting.startServer();
 

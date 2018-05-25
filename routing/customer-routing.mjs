@@ -1,15 +1,16 @@
 import express from 'express';
 import { CustomerService } from '../services';
-import { HttpStatusCodes, ErrorConstants } from '../constants';
+import { PushNotificationEvents, HttpStatusCodes, ErrorConstants } from '../constants';
 
 const MIN_SEARCH_LENGTH = 3;
 const MIN_CUSTOMER_ID = 1;
 
 class CustomerRouting {
-    constructor() {
+    constructor(pushNotificationService) {
         this.customerService = new CustomerService();
+        this.pushNotificationService = pushNotificationService;
         this.routerDefinition = express.Router();
-        
+
         this.initializeRouting();
     }
 
@@ -103,6 +104,11 @@ class CustomerRouting {
                 }
 
                 let savedCustomerRecord = await this.customerService.saveCustomer(customer);
+
+                if (this.pushNotificationService) {
+                    this.pushNotificationService.notify(
+                        PushNotificationEvents.NEW_CUSTOMER, savedCustomerRecord);
+                }
 
                 response
                     .status(HttpStatusCodes.CREATED)
