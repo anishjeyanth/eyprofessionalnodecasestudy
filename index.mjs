@@ -1,40 +1,28 @@
-import { CustomerService } from './services';
+import { SingleInstanceServiceHosting } from './hosting';
+
+const DEFAULT_PORT = 8080;
 
 async function main() {
     try {
-        let customerServiceObject = new CustomerService();
-        let filteredCustomers = await customerServiceObject.filterCustomers('bath');
+        let portNumber = process.env.PORT_NUMBER || DEFAULT_PORT;
+        let hosting = new SingleInstanceServiceHosting(portNumber);
 
-        for (let record of filteredCustomers) {
-            console.log(JSON.stringify(record));
-        }
+        await hosting.startServer();
 
-        console.log('=========================================');
+        console.log('Server Started Successfully ...');
 
-        let fileteredCustomer = await customerServiceObject.getCustomer(11);
+        let handleStopServer = async () => {
+            await hosting.stopServer();
 
-        console.log(JSON.stringify(fileteredCustomer));
-
-        console.log('=========================================');
-
-        let newCustomer = {
-            id: 1001,
-            name: 'Northwind Traders',
-            address: 'Bangalore',
-            credit: 23000,
-            status: true,
-            email: 'info@nwt.com',
-            phone: '080-38499384',
-            remarks: 'Simple and Sample Record'
+            console.log('Server Stopped Successfully ...');
         };
 
-        let savedRecord = await customerServiceObject.saveCustomer(newCustomer);
-
-        console.log(JSON.stringify(savedRecord));
+        process.on('exit', handleStopServer);
+        process.on('SIGTERM', handleStopServer);
     } catch (error) {
-        console.log(JSON.stringify(error));
+        console.log(`Error Occurred, Details : ${JSON.stringify(error)}`);
     }
 }
 
 main()
-    .then(() => console.log('Program Completed!'));
+    .then(() => console.log('Program Completed ...'));
