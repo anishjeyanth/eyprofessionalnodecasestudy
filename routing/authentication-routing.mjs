@@ -23,7 +23,7 @@ class AuthenticationRouting {
     initializeRouting() {
         this.routerDefinition.post('/', async (request, response) => {
             try {
-                let userName = request.body.userName;
+                let userName = request.body.userName || request.body.userId;
                 let password = request.body.password;
                 let validation = userName && password;
 

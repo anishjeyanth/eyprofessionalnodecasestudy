@@ -1,0 +1,50 @@
+node --experimental-modules index.mjs
+cls
+node --experimental-modules index.mjs
+ccls
+cls
+node --experimental-modules index.mjs
+cls
+node --experimental-modules index.mjs
+cls
+set GLOBAL_SECRET_KEY=EYBangaloreIndia
+doskey /history > cmd.txt
+cls
+npm init -y
+npm i mongoose express body-parser express-jwt socket.io --save
+npm i jasmine karma karma-jasmine eslint istanbul jsdoc --save-dev
+code .
+cls
+node --experimental-modules index.mjs
+node index.mjs
+cls
+node --experimental-modules index.mjs
+cls
+git init
+git add .
+git commit -m "first commit"
+git remote add origin https://github.com/iomegak12/eyprofessionalnodecasestudy.git
+git push -u origin master
+cls
+node --experimental-modules index.mjs
+cls
+node --experimental-modules index.mjs
+cls
+set PORT_NUMBER=9090
+node --experimental-modules index.mjs
+cls
+node --experimental-modules index.mjs
+cls
+set PORT_NUMBER=9090
+node --experimental-modules index.mjs
+cls
+set ENABLE_STATIC_CONTENTS=True
+node --experimental-modules index.mjs
+cl
+cls
+node --experimental-modules index.mjs
+cls
+npm i jsonwebtoken --save
+set GLOBAL_SECRET_KEY=EYBangaloreIndia
+node --experimental-modules index.mjs
+cls

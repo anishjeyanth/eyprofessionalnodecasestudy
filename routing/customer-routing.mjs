@@ -90,7 +90,7 @@ class CustomerRouting {
         this.routerDefinition.post('/', async (request, response) => {
             try {
                 let customer = request.body;
-                let validation = customer && customer.id &&
+                let validation = customer && (customer.id || customer.customerId) &&
                     customer.name && customer.status;
 
                 if (!validation) {
@@ -102,6 +102,8 @@ class CustomerRouting {
 
                     return;
                 }
+
+                customer.id = customer.id || customer.customerId;
 
                 let savedCustomerRecord = await this.customerService.saveCustomer(customer);
 
